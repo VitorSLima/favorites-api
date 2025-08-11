@@ -36,8 +36,8 @@ export default class AuthController {
 
       return response.ok({
         type: 'bearer',
-        token: token.value!.release(), // string do token para o cliente
-        expiresAt: token.expiresAt, // opcional
+        token: token.value!.release(),
+        expiresAt: token.expiresAt,
       })
     } catch (err) {
       return response.unauthorized({ message: 'Invalid credentials' })
