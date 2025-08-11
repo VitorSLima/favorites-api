@@ -1,0 +1,21 @@
+meta {
+  name: list favorite
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{url}}/customers/1/favorites
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:json {
+  { 
+    "productId": 5 
+  }
+}

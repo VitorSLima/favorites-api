@@ -1,0 +1,9 @@
+{
+  "version": "1",
+  "name": "favorites-http-req",
+  "type": "collection",
+  "ignore": [
+    "node_modules",
+    ".git"
+  ]
+}
