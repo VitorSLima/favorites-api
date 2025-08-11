@@ -58,6 +58,25 @@ Uma vez que a aplicação esteja em execução, você pode acessar a documentaç
 
 [http://localhost:3333/docs](http://localhost:3333/docs)
 
+
+## Testes HTTP com Bruno
+
+Os arquivos de requisição `.bru` estão na pasta **`favorites-http-req`**.
+
+### Como usar
+
+1. Abra o **Bruno** (desktop).
+2. Use **Open Collection** e selecione a pasta `favorites-http-req`.
+3. Defina variáveis de ambiente na coleção (exemplos):
+   - `baseUrl` = `http://localhost:3333`
+   - `authToken` = `Bearer <seu_jwt>`
+4. Execute as requisições nas pastas:
+   - **auth** → faça `POST /auth/login` para obter o token (payload de exemplo já incluso).
+   - Atualize `authToken` com o JWT retornado.
+   - Rode as rotas de **customers** e **favorites**.
+
+> Os arquivos `.bru` já incluem **headers**, **bodies** e **exemplos** para agilizar os testes.
+
 ## Principais Endpoints
 
 - **Autenticação:**
