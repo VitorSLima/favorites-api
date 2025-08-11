@@ -20,3 +20,16 @@ router
     router.delete('/customers/:customerId/favorites/:productId', [FavoritesController, 'delete'])
   })
   .use(middleware.auth())
+
+import AutoSwagger from 'adonis-autoswagger'
+import swagger from '#config/swagger'
+
+// Returns Swagger JSON
+router.get('/swagger', async () => {
+  return AutoSwagger.default.docs(router.toJSON(), swagger)
+})
+
+// Renders Swagger UI
+router.get('/docs', async () => {
+  return AutoSwagger.default.ui('/swagger')
+})

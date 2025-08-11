@@ -6,6 +6,29 @@ import { errors } from '@vinejs/vine'
 import FakeStoreService from '../../services/fake_store.service.js'
 
 export default class FavoritesController {
+  /**
+   * @swagger
+   * /customers/{customerId}/favorites:
+   *   get:
+   *     tags:
+   *       - Favorites
+   *     summary: List all favorite products for a customer
+   *     security:
+   *       - BearerAuth: []
+   *     parameters:
+   *       - in: path
+   *         name: customerId
+   *         required: true
+   *         schema:
+   *           type: integer
+   *     responses:
+   *       '200':
+   *         description: A list of favorite products
+   *       '401':
+   *         description: Unauthorized
+   *       '404':
+   *         description: Customer not found
+   */
   public async findAll({ params, response }: HttpContext) {
     const customer = await Customer.find(params.customerId)
     if (!customer) return response.notFound({ message: 'Customer not found' })
@@ -29,6 +52,45 @@ export default class FavoritesController {
     return data
   }
 
+  /**
+   * @swagger
+   * /customers/{customerId}/favorites:
+   *   post:
+   *     tags:
+   *       - Favorites
+   *     summary: Add a favorite product to a customer
+   *     security:
+   *       - BearerAuth: []
+   *     parameters:
+   *       - in: path
+   *         name: customerId
+   *         required: true
+   *         schema:
+   *           type: integer
+   *     requestBody:
+   *       required: true
+   *       content:
+   *         application/json:
+   *           schema:
+   *             type: object
+   *             properties:
+   *               productId:
+   *                 type: integer
+   *                 example: 1
+   *     responses:
+   *       '201':
+   *         description: Favorite added successfully
+   *       '400':
+   *         description: Invalid product
+   *       '401':
+   *         description: Unauthorized
+   *       '404':
+   *         description: Customer not found
+   *       '409':
+   *         description: Product already favorited
+   *       '422':
+   *         description: Validation error
+   */
   public async add({ params, request, response }: HttpContext) {
     try {
       const customer = await Customer.find(params.customerId)
@@ -62,6 +124,34 @@ export default class FavoritesController {
     }
   }
 
+  /**
+   * @swagger
+   * /customers/{customerId}/favorites/{productId}:
+   *   delete:
+   *     tags:
+   *       - Favorites
+   *     summary: Remove a favorite product from a customer
+   *     security:
+   *       - BearerAuth: []
+   *     parameters:
+   *       - in: path
+   *         name: customerId
+   *         required: true
+   *         schema:
+   *           type: integer
+   *       - in: path
+   *         name: productId
+   *         required: true
+   *         schema:
+   *           type: integer
+   *     responses:
+   *       '204':
+   *         description: Favorite removed successfully
+   *       '401':
+   *         description: Unauthorized
+   *       '404':
+   *         description: Customer or Favorite not found
+   */
   public async delete({ params, response }: HttpContext) {
     const customer = await Customer.find(params.customerId)
     if (!customer) return response.notFound({ message: 'Customer not found' })
