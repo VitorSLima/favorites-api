@@ -46,7 +46,7 @@ export default class AuthController {
       const user = await User.create({
         name: payload.name,
         email: payload.email,
-        password: await Hash.make(payload.password),
+        password: payload.password,
       })
 
       return response.created({ id: user.id, name: user.name, email: user.email })
@@ -87,20 +87,18 @@ export default class AuthController {
    *       '422':
    *         description: Validation error
    */
+
   public async login({ request, response, auth }: HttpContext) {
     try {
       const { email, password } = await request.validateUsing(loginValidator)
-
       const user = await User.verifyCredentials(email, password)
-
       const token = await auth.use('api').createToken(user, ['*'], { expiresIn: '7 days' })
-
       return response.ok({
         type: 'bearer',
         token: token.value!.release(),
         expiresAt: token.expiresAt,
       })
-    } catch (err) {
+    } catch {
       return response.unauthorized({ message: 'Invalid credentials' })
     }
   }
