@@ -9,14 +9,14 @@ router.post('/auth/login', [AuthController, 'login'])
 
 router
   .group(() => {
-    router.get('/customers', [CustomersController, 'index'])
-    router.get('/customers/:id', [CustomersController, 'show'])
+    router.get('/customers', [CustomersController, 'findAll'])
+    router.get('/customers/:id', [CustomersController, 'findById'])
     router.post('/customers', [CustomersController, 'store'])
     router.put('/customers/:id', [CustomersController, 'update'])
-    router.delete('/customers/:id', [CustomersController, 'destroy'])
+    router.delete('/customers/:id', [CustomersController, 'delete'])
 
-    router.get('/customers/:customerId/favorites', [FavoritesController, 'list'])
+    router.get('/customers/:customerId/favorites', [FavoritesController, 'findAll'])
     router.post('/customers/:customerId/favorites', [FavoritesController, 'add'])
-    router.delete('/customers/:customerId/favorites/:productId', [FavoritesController, 'remove'])
+    router.delete('/customers/:customerId/favorites/:productId', [FavoritesController, 'delete'])
   })
   .use(middleware.auth())
